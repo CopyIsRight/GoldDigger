@@ -78,6 +78,7 @@
 		_cat = ^GDGCondition *(GDGCondition *builder) {
 			[weakSelf.mutableArgs addEntriesFromDictionary:builder.mutableArgs];
 			[weakSelf.mutableTokens addObjectsFromArray:builder->_mutableTokens];
+            [weakSelf.mutableFields addEntriesFromDictionary:builder->_mutableFields];
 			return weakSelf;
 		};
 	}
