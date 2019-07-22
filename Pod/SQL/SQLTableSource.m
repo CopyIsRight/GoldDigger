@@ -240,11 +240,8 @@
 
 - (int)insert:(NSDictionary <NSString *, id> *)values error:(NSError **)error
 {
-	CIRDatabase *db = _databaseProvider.database;
 	NSNumber *i;
-
 	sqlite3 *handler = _databaseProvider.database.handler;
-
 	int code = 0;
 	const char *errMessage;
 
