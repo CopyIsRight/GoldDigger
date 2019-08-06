@@ -282,7 +282,7 @@
 		values[columnName] = value ?: [NSNull null];
 	}
 
-	if (exists)
+	if (exists && self.id)
 	{
 		for (NSString *key in primaryKeys)
 		{
@@ -297,10 +297,16 @@
 		saved = [db.table update:values error:error];
 	}
 	else
-		saved = [db.table insert:values error:error];
+	{
+		NSString *insertId = [db.table insert:values];
 
-	if (saved && !exists && self.id == nil)
-		self.id = [db.table lastInsertedId];
+		NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+		formatter.numberStyle = NSNumberFormatterDecimalStyle;
+		NSNumber *idNumber = [formatter numberFromString:insertId];
+
+		self.id = idNumber;
+		saved = self.id != nil ? true : false;
+	}
 
 	for (GDGRelation *relation in relations)
 		[relation save:self error:NULL];
